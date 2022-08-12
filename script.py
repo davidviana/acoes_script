@@ -2,13 +2,11 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import pandas as pd
 
-
 #coleta de dados
 page = urlopen("https://pt.wikipedia.org/wiki/Lista_de_capitais_do_Brasil_por_%C3%A1rea")
 soup = BeautifulSoup(page.read(), 'html5lib')
 all_table = soup.find_all('table')
 table_sorted = soup.find('table', class_='wikitable sortable')
-
 
 #definindo as colunas
 A = []
@@ -31,7 +29,7 @@ for row in table_sorted.findAll("tr"): #para tudo que estiver em <tr>
         E.append(cells[4].find(text=True))
 
 #adição na planilha
-df = pd.DataFrame(index=A, columns=['Posição'])
+df = pd.DataFrame(index=A)
 
 df['Ação'] = A
 df['Empresa'] = B
@@ -41,3 +39,5 @@ df['EV/EBIT'] = E
 # df['Volume Financ.(R$)'] = F
 # df['Quantidade de Ações'] = G
 # df['Total Investido'] = H
+
+df
