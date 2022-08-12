@@ -46,3 +46,12 @@ writer = pd.ExcelWriter("converted-to-excel.xlsx")
 df.to_excel(writer)
 writer.save()
 print('A planilha foi criada com sucesso')
+
+#TODO
+# acessar o link https://www.investsite.com.br/seleciona_acoes.php
+# pegar a cotação das ações
+# gerar uma planilha => FUTURO: manipular uma planilha já existente
+# criação de filtro
+# aplicação de filtros
+# comparação com o periodo anterior
+# Criar uma execução recorrente
