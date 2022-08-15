@@ -1,8 +1,11 @@
-from selenium import webdriver
+from datetime import datetime
 
+while True:
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
 
-def openbrowser():
-    driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
-    page = 'https://br.investing.com/equities/'
-    driver.get(page)
-
+    if current_time == "21:35:00":
+        print("está na hora já")
+        break
+    else:
+        print("ainda não está na hora")

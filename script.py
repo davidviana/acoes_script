@@ -1,12 +1,16 @@
 import urllib.request
 from bs4 import BeautifulSoup
 import pandas as pd
-from script_2 import openbrowser
+from selenium import webdriver
+from datetime import datetime
 
 
-def system():
-    # openbrowser()
+def init_system():
+    openbrowser()
+    # datacatch()
 
+
+def datacatch():
     # coleta de dados
     page = urllib.request.urlopen("https://pt.wikipedia.org/wiki/Lista_de_capitais_do_Brasil_por_%C3%A1rea")
     soup = BeautifulSoup(page.read(), 'html5lib')
@@ -46,7 +50,23 @@ def system():
     print('A planilha foi criada com sucesso')
 
 
-system()
+def openbrowser():
+    driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
+    driver.get('https://www.investsite.com.br/seleciona_acoes.php')
+    page = BeautifulSoup(driver.page_source, 'html5lib')
+    table_sorted = page.find('table')
+    print(table_sorted)
+
+
+
+while True:
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    if current_time == "7:20:00":
+        init_system()
+        break
+    else:
+        continue
 
 # TODO
 # acessar o link https://www.investsite.com.br/seleciona_acoes.php
