@@ -54,15 +54,22 @@ def openbrowser():
     driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
     driver.get('https://www.investsite.com.br/seleciona_acoes.php')
     page = BeautifulSoup(driver.page_source, 'html5lib')
-    table_sorted = page.find('table')
-    print(table_sorted)
-
+    checkbox = page.find_all("input", type=['checkbox'])
+    print(checkbox)
+    print(len(checkbox))
+    #checkbox = driver.find_elements_by_xpath("//input[@type='checkbox']")
+    for i in checkbox:
+        print('i na primeira instancia: ', i)
+        if i.get_attribute("value") == "todos":
+            print('i no FOR: ', i)
+            print('method click: ', i.click())
+            print('checkboxes clicados')
 
 
 while True:
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
-    if current_time == "7:20:00":
+    if current_time == current_time or '07:40:00':
         init_system()
         break
     else:
