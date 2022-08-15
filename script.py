@@ -1,9 +1,11 @@
 import urllib.request
+
 from bs4 import BeautifulSoup
 import pandas as pd
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from datetime import datetime
-
+import time
 
 def init_system():
     openbrowser()
@@ -53,17 +55,10 @@ def datacatch():
 def openbrowser():
     driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
     driver.get('https://www.investsite.com.br/seleciona_acoes.php')
+    driver.maximize_window()
     page = BeautifulSoup(driver.page_source, 'html5lib')
-    checkbox = page.find_all("input", type=['checkbox'])
-    print(checkbox)
-    print(len(checkbox))
-    #checkbox = driver.find_elements_by_xpath("//input[@type='checkbox']")
-    for i in checkbox:
-        print('i na primeira instancia: ', i)
-        if i.get_attribute("value") == "todos":
-            print('i no FOR: ', i)
-            print('method click: ', i.click())
-            print('checkboxes clicados')
+    driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/form/table/tbody/tr[1]/td[4]').click()
+    time.sleep(20)
 
 
 while True:
