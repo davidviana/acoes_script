@@ -56,9 +56,17 @@ def openbrowser():
     driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
     driver.get('https://www.investsite.com.br/seleciona_acoes.php')
     driver.maximize_window()
-    page = BeautifulSoup(driver.page_source, 'html5lib')
-    driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/form/table/tbody/tr[1]/td[4]').click()
-    time.sleep(20)
+
+    driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/form/input[2]').click()
+    time.sleep(5)
+    driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/form/table/tbody/tr[8]/td[4]/input').click()
+    time.sleep(2)
+    driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/form/table/tbody/tr[21]/td[4]/input').click()
+    time.sleep(2)
+    driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/form/table/tbody/tr[24]/td[4]/input').click()
+    time.sleep(30)
+
+    driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/form/input[1]').click()
 
 
 while True:
