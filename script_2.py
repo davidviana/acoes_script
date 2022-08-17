@@ -1,12 +1,29 @@
-from selenium import webdriver
+from urllib.request import Request, urlopen
+from bs4 import BeautifulSoup
 
-driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
-driver.maximize_window()
-driver.get("https://www.tutorialspoint.com/selenium/selenium_automation_practice.htm")
-driver.refresh()
-chk = driver.find_elements_by_xpath("//input[@type='radio']")
-print(len(chk))
-for i in chk:
-    if i.get_attribute("value") == "Male":
-        i.click()
-        driver.close()
+list_acoes = ['petr4', 'klbn11', 'mrfg3', 'jbss3', 'posi3']  # se você quiser colocar as ações predefinidas
+
+
+def datacatch():
+    for i in list_acoes:
+        req = Request(f'https://statusinvest.com.br/acoes/{i}', headers={'User-Agent': 'Mozilla/5.0'})
+        webpage = urlopen(req)
+        complete_webpage = BeautifulSoup(webpage.read(), 'html5lib')
+        pl_value = complete_webpage.find('strong', class_='value')
+        print(f'{i.upper()}', '\nR$', pl_value.text, '\n')
+
+
+datacatch()
+
+
+def inputcatch():
+    while True:
+        acao = input("Digite uma ação: ").upper()
+        req = Request(f'https://statusinvest.com.br/acoes/{acao}', headers={'User-Agent': 'Mozilla/5.0'})
+        webpage = urlopen(req)
+        complete_webpage = BeautifulSoup(webpage.read(), 'html5lib')
+        pl_value = complete_webpage.find('strong', class_='value')
+        print(f'{acao.upper()}', '\nR$', pl_value.text, '\n')
+
+
+inputcatch()
