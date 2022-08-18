@@ -1,22 +1,23 @@
-import urllib.request
-
 from bs4 import BeautifulSoup
+from urllib.request import Request, urlopen
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from datetime import datetime
 import time
 
+
 def init_system():
-    openbrowser()
-    # datacatch()
+    # openbrowser()
+    datacatch()
 
 
 def datacatch():
     # coleta de dados
-    page = urllib.request.urlopen("https://pt.wikipedia.org/wiki/Lista_de_capitais_do_Brasil_por_%C3%A1rea")
-    soup = BeautifulSoup(page.read(), 'html5lib')
-    table_sorted = soup.find('table', class_='wikitable sortable')
+    url = Request("https://br.investing.com/equities/", headers={'User-Agent': 'Mozilla/5.0'})
+    opened_page = urlopen(url)
+    webpage = BeautifulSoup(opened_page.read(), 'html5lib')
+    table_sorted = webpage.find('table', class_='genTbl closedTbl crossRatesTbl elpTbl elp30')
 
     # definindo as colunas
     A = []
@@ -24,25 +25,33 @@ def datacatch():
     C = []
     D = []
     E = []
+    F = []
+    G = []
+    H = []
 
     # captando os dados para as linhas e colunas
     for row in table_sorted.findAll("tr"):
-        cells = row.findAll('td')
-        if len(cells) == 5:
-            A.append(cells[0].find(text=True))
-            B.append(cells[1].find(text=True))
-            C.append(cells[2].find(text=True))
-            D.append(cells[3].find('a').text)
-            E.append(cells[4].find(text=True))
+        cells = row.find_all('td')
+        if len(cells) == 10:
+            A.append(cells[1].find(text=True))
+            B.append(cells[2].find(text=True))
+            C.append(cells[3].find(text=True))
+            D.append(cells[4].find(text=True))
+            E.append(cells[5].find(text=True))
+            F.append(cells[6].find(text=True))
+            G.append(cells[7].find(text=True))
+            H.append(cells[8].find(text=True))
 
     # adição na planilha
     df = pd.DataFrame(index=A)
-
-    df['Id'] = A
-    df['Capital'] = B
-    df['Semana'] = C
-    df['Estados'] = D
-    df['Renda'] = E
+    df['Nome'] = A
+    df['Ultimo'] = B
+    df['Maximo'] = C
+    df['Minimo'] = D
+    df['Variação'] = E
+    df['Var %'] = F
+    df['Vol'] = G
+    df['Hora'] = H
 
     # converter em arquivo de excel
 
@@ -64,7 +73,7 @@ def openbrowser():
     driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/form/table/tbody/tr[21]/td[4]/input').click()
     time.sleep(2)
     driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/form/table/tbody/tr[24]/td[4]/input').click()
-    time.sleep(30)
+    time.sleep(5)
 
     driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/form/input[1]').click()
 
