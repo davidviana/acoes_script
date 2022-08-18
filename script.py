@@ -46,7 +46,7 @@ def datacatch():
     df = pd.DataFrame(index=A)
     df['Nome'] = A
     df['Ultimo'] = B
-    df['Maximo'] = C
+    df['Máximo'] = C
     df['Minimo'] = D
     df['Variação'] = E
     df['Var %'] = F
